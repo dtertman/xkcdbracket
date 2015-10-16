@@ -1,0 +1,71 @@
+{% extends "admin_base.html" %}
+{% block head %}
+<script>
+    $(function() {
+        $( ".datepicker" ).datepicker();
+        $( ".datepicker" ).datepicker("option","dateFormat","yy-mm-dd");
+    });
+</script>
+{% endblock %}
+{% block content %}
+<form method="POST">
+{% if failed != None %}
+    <div class="row">
+    {% if failed %}
+        <div class="alert alert-danger" role="alert">Match creation failed, please retry</div>
+    {% else %}
+        <div class="alert alert-success" role="alert">Match created successfully</div>
+    {% endif %}
+    
+    </div>
+{% endif %}
+
+<div class="row">
+    <h1>Schedule a Match</h1>
+</div>
+<div class="row">
+    <h3>Match name</h3>
+    <div class="col-md-4"> 
+        <label for="gameName" class="sr-only">Match name</label>
+        <input id="gameName" name="gameName" class="form-control" placeholder="Match name" autofocus="" type="text">
+    </div>
+</div>
+<div class="row">
+    <h3>Participants</h3>
+    <div class="col-md-8">
+       {% for entrant in entrants %}
+        <div class="row">
+            <div class="col-md-8">
+                <label class="normal">
+                    <input id="entrant-{{ entrant.id }}" type="checkbox" name="entrants" value="{{ entrant.id }}"/>
+                    {{ entrant.name }}
+                </label>
+            </div>
+        </div>
+       {% endfor %}
+    </div>
+</div>
+<div class="row">
+    <h3>Timing</h3>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="gameStart">Start date</label>
+                <input id="gameStart" class="datepicker" name="gameStart" class="form-control" placeholder="Start date" type="text">
+            </div>
+        </div>
+        <div class="row"><p></p></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="gameEnd">End date</label>
+                <input id="gameEnd" class="datepicker" name="gameEnd" class="form-control" placeholder="End date" type="text">
+            </div>
+        </div> 
+    </div>
+</div>
+<div class="row"><p></p></div>
+<div class="row">
+    <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+</div>
+</form>
+{% endblock %}
